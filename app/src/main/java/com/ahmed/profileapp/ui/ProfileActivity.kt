@@ -18,9 +18,7 @@ class ProfileActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-        viewModel.onChangeProfilePictureClick = {
-            showImagePickerOptions()
-        }
+        
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 

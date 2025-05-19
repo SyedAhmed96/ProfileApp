@@ -41,7 +41,7 @@
                     android:src="@drawable/x"
                     android:contentDescription="Profile image"
                     app:imageUrl="@{viewModel.profileImageUri}"
-                    android:scaleType="centerCrop"/>x
+                    android:scaleType="centerCrop"/>
 
 
                 <TextView
