@@ -1,21 +1,38 @@
 package com.ahmed.profileapp.ui
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import com.ahmed.profileapp.databinding.ActivityProfileBinding
 import com.ahmed.profileapp.R
 
 class ProfileActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityProfileBinding
+    private lateinit var viewModel: ProfileViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        ProfileRepository.init(this) // Initialize SharedPreferences
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
+        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+        viewModel.onChangeProfilePictureClick = {
+            showImagePickerOptions()
         }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
+        viewModel.navigateToEditProfile.observe(this) { shouldNavigate ->
+            if (shouldNavigate == true) {
+                startActivity(Intent(this, EditProfileActivity::class.java))
+                viewModel.doneNavigating()
+            }
+        }
+    }
+
+    private fun showImagePickerOptions() {
+        TODO("Not yet implemented")
     }
 }

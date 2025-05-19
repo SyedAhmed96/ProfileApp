@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">ProfileApp</string>
+    <string name="profile_icon_description">My profile</string>
+    <string name="profile_screen_content">User profile information including name, date of birth, and gender</string>
+    <string-array name="genderOptions">
+        <item>Enter Subject</item>
+        <item>Math</item>
+        <item>Science</item>
+        <item>English</item>
+        <item>History</item>
+        <item>Computer</item>
+    </string-array>
+
+
 </resources>
