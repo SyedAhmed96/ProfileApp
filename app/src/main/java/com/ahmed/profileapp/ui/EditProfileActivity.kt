@@ -1,5 +1,8 @@
+// EditProfileActivity.kt
+
 package com.ahmed.profileapp.ui
 
+// Brings in all needed Android, binding, and utility classes.
 import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -19,16 +22,21 @@ import com.ahmed.profileapp.R
 import java.text.SimpleDateFormat
 import java.util.*
 
+// Declares the EditProfile screen/activity.
 class EditProfileActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityEditProfileBinding
-    private lateinit var viewModel: ProfileViewModel
 
+    private lateinit var binding: ActivityEditProfileBinding //	Will hold references to layout binding .
+    private lateinit var viewModel: ProfileViewModel // References for ViewModel.
+
+
+    //	Handles result from gallery image picker and updates ViewModel with image URI.
     private val galleryPicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             viewModel.profileImageUri.value = it.toString()
         }
     }
 
+    // Handles result from taking a picture with the camera and updates ViewModel with image URI.
     private val cameraCapture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
             viewModel.currentPhotoPath.value?.let { path ->
@@ -43,6 +51,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
+    // Handles permission request results for camera use.
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -53,6 +62,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
+    // Android’s entry point for the activity. Sets up data binding, ViewModel, initial values, click handlers, and back navigation.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ProfileRepository.init(this)
@@ -79,6 +89,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
+    // Shows dialog for picking image from gallery or taking a new photo, checks permissions.
     private fun showImagePickerOptions() {
         if (ContextCompat.checkSelfPermission(
                 this,
@@ -104,6 +115,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
+    // Prepares file and launches camera intent.
     private fun takePhotoFromCamera() {
         val photoFile = createImageFile()
         val photoURI = FileProvider.getUriForFile(
@@ -115,10 +127,12 @@ class EditProfileActivity : AppCompatActivity() {
         cameraCapture.launch(photoURI)
     }
 
+    // Launches gallery picker intent.
     private fun chooseFromGallery() {
         galleryPicker.launch("image/*")
     }
 
+    // Creates a temp file to store a photo from camera.
     private fun createImageFile(): File {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)

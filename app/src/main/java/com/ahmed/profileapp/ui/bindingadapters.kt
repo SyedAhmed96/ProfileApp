@@ -2,6 +2,7 @@
 
 package com.ahmed.profileapp.ui
 
+//Imports necessary Android, DataBinding, and Glide classes.
 import android.widget.ImageView
 import android.view.View
 import android.widget.ArrayAdapter
@@ -12,7 +13,10 @@ import androidx.lifecycle.MutableLiveData
 import com.ahmed.profileapp.R
 import com.bumptech.glide.Glide
 
+//Lets you bind the imageUrl property in XML to a function.
 @BindingAdapter("imageUrl")
+
+// Loads an image (as a circle) from a URL into an ImageView using Glide.
 fun ImageView.setImageUrl(uri: String?) {
     Glide.with(context)
         .load(uri)
@@ -20,7 +24,14 @@ fun ImageView.setImageUrl(uri: String?) {
         .placeholder(R.drawable.ic_profile_placeholder)
         .into(this)
 }
+
+
+
+
+//Lets you bind spinner entries and selection in XML.
 @BindingAdapter("entries", "selectedItem")
+
+//	Sets up a Spinner (dropdown): fills it with options, listens for changes, and updates the selected value.
 fun bindSpinner(
     spinner: Spinner,
     entries: List<String>?,
